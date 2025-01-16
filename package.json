@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:prod": "NODE_ENV=production node ./src/server.js",
-    "start:dev:nodemon": "set NODE_ENV=development && nodemon ./src/server.js",
-    "start:dev:watch": "set NODE_ENV=development && node --watch ./src/server.js",
+    "start:prod:ubuntu": "NODE_ENV=production node ./src/server.js",
+    "start:prod:cmd": "set NODE_ENV=production && node ./src/server.js",
+    "start:prod:powershell": "$env:NODE_ENV=\"production\"; && node ./src/server.js",
+    "start:dev:nodemon": "nodemon ./src/server.js",
+    "start:dev:watch": "node --watch ./src/server.js",
     "lint": "eslint ./src"
   },
   "keywords": [],
