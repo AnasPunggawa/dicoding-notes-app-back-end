@@ -2,7 +2,7 @@ const NotesHandler = require('./handler');
 const routes = require('./routes');
 
 /**
- * @type {import('../../types/hapiTypes.js').HapiPlugin}
+ * @type {import('../../types/HapiTypes.js').HapiPlugin}
  */
 module.exports = {
   name: 'notes',

@@ -1,6 +1,6 @@
 /**
  * @param {import('./handler')} handler
- * @returns {import('../../types/hapiTypes.js').HapiRoute}
+ * @returns {import('../../types/HapiTypes.js').HapiRoute}
  */
 const routes = (handler) => [
   {

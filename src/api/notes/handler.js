@@ -1,17 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 
-// const CLientError = require('../../exceptions/ClientError');
-
 /**
- * @typedef {import('../../services/inMemory/NotesService.js')} NotesService
- * @typedef {import('../../types/hapiTypes.js').HapiRequest} HapiRequest
- * @typedef {import('../../types/hapiTypes.js').HapiResponseToolkit} HapiResponseToolkit
- * @typedef {import('../../types/hapiTypes.js').HapiResponseObject} HapiResponseObject
+ * @typedef {import('../../services/postgres/NotesService.js')} NotesService
+ * @typedef {import('../../validator/notes/index.js')} NotesValidator
+ * @typedef {import('../../types/HapiTypes.js').HapiRequest} HapiRequest
+ * @typedef {import('../../types/HapiTypes.js').HapiResponseToolkit} HapiResponseToolkit
+ * @typedef {import('../../types/HapiTypes.js').HapiResponseObject} HapiResponseObject
  */
 
 class NotesHandler {
   /**
    * @param {NotesService} service
+   * @param {NotesValidator} validator
    */
   constructor(service, validator) {
     this._service = service;
@@ -28,15 +28,16 @@ class NotesHandler {
    *
    * @param {HapiRequest} request
    * @param {HapiResponseToolkit} h
-   * @returns {HapiResponseObject}
+   * @returns {Promise<HapiResponseObject>}
    */
-  postNoteHandler(request, h) {
+  async postNoteHandler(request, h) {
+    // @ts-ignore
     this._validator.validateNotePayload(request.payload);
 
     // @ts-ignore
     const { title = 'untitled', body, tags } = request.payload;
 
-    const noteId = this._service.addNote({ title, body, tags });
+    const noteId = await this._service.addNote({ title, body, tags });
 
     const response = h.response({
       status: 'success',
@@ -53,10 +54,10 @@ class NotesHandler {
   /**
    * @param {HapiRequest} _request
    * @param {HapiResponseToolkit} h
-   * @returns {HapiResponseObject}
+   * @returns {Promise<HapiResponseObject>}
    */
-  getNotesHandler(_request, h) {
-    const notes = this._service.getNotes();
+  async getNotesHandler(_request, h) {
+    const notes = await this._service.getNotes();
 
     const response = h.response({
       status: 'success',
@@ -72,11 +73,12 @@ class NotesHandler {
   /**
    * @param {HapiRequest} request
    * @param {HapiResponseToolkit} h
+   * @return {Promise<HapiResponseObject>}
    */
-  getNoteByIdHandler(request, h) {
+  async getNoteByIdHandler(request, h) {
     const { id } = request.params;
 
-    const note = this._service.getNoteById(id);
+    const note = await this._service.getNoteById(id);
 
     const response = h.response({
       status: 'success',
@@ -92,9 +94,10 @@ class NotesHandler {
   /**
    * @param {HapiRequest} request
    * @param {HapiResponseToolkit} h
-   * @returns {HapiResponseObject}
+   * @return {Promise<HapiResponseObject>}
    */
-  putNoteByIdHandler(request, h) {
+  async putNoteByIdHandler(request, h) {
+    // @ts-ignore
     this._validator.validateNotePayload(request.payload);
 
     const { id } = request.params;
@@ -103,7 +106,7 @@ class NotesHandler {
     // const { title, body, tags } = request.payload;
     // const updatedNote = this._service.editNoteById(id, { title, body, tags });
 
-    const updatedNote = this._service.editNoteById(id, request.payload);
+    const updatedNote = await this._service.editNoteById(id, request.payload);
 
     const response = h.response({
       status: 'success',
@@ -120,12 +123,12 @@ class NotesHandler {
   /**
    * @param {HapiRequest} request
    * @param {HapiResponseToolkit} h
-   * @returns {HapiResponseObject}
+   * @return {Promise<HapiResponseObject>}
    */
-  deleteNoteByIdHandler(request, h) {
+  async deleteNoteByIdHandler(request, h) {
     const { id } = request.params;
 
-    const deletedNote = this._service.deleteNoteById(id);
+    const deletedNote = await this._service.deleteNoteById(id);
 
     const response = h.response({
       status: 'success',
