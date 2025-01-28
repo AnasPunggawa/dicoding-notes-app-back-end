@@ -6,6 +6,7 @@
  * @property {string[]} tags
  * @property {string} createdAt
  * @property {string} updatedAt
+ * @property {string} owner
  */
 
 /**
@@ -13,6 +14,7 @@
  * @property {string} title
  * @property {string} body
  * @property {string[]} tags
+ * @property {string} owner
  */
 
 module.exports = {};

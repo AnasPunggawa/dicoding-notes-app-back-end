@@ -36,8 +36,15 @@ class NotesHandler {
 
     // @ts-ignore
     const { title = 'untitled', body, tags } = request.payload;
+    const { id: credentialId } = request.auth.credentials;
 
-    const noteId = await this._service.addNote({ title, body, tags });
+    const noteId = await this._service.addNote({
+      title,
+      body,
+      tags,
+      // @ts-ignore
+      owner: credentialId,
+    });
 
     const response = h.response({
       status: 'success',
@@ -52,12 +59,15 @@ class NotesHandler {
   }
 
   /**
-   * @param {HapiRequest} _request
+   * @param {HapiRequest} request
    * @param {HapiResponseToolkit} h
    * @returns {Promise<HapiResponseObject>}
    */
-  async getNotesHandler(_request, h) {
-    const notes = await this._service.getNotes();
+  async getNotesHandler(request, h) {
+    const { id: credentialId } = request.auth.credentials;
+
+    // @ts-ignore
+    const notes = await this._service.getNotes(credentialId);
 
     const response = h.response({
       status: 'success',
@@ -77,6 +87,10 @@ class NotesHandler {
    */
   async getNoteByIdHandler(request, h) {
     const { id } = request.params;
+    const { id: credentialId } = request.auth.credentials;
+
+    // @ts-ignore
+    await this._service.verifyNoteOwner(id, credentialId);
 
     const note = await this._service.getNoteById(id);
 
@@ -101,12 +115,19 @@ class NotesHandler {
     this._validator.validateNotePayload(request.payload);
 
     const { id } = request.params;
+    const { id: credentialId } = request.auth.credentials;
+    // @ts-ignore
+    const { title, body, tags } = request.payload;
 
     // @ts-ignore
-    // const { title, body, tags } = request.payload;
-    // const updatedNote = this._service.editNoteById(id, { title, body, tags });
+    await this._service.verifyNoteOwner(id, credentialId);
 
-    const updatedNote = await this._service.editNoteById(id, request.payload);
+    // @ts-ignore
+    const updatedNote = await this._service.editNoteById(id, {
+      title,
+      body,
+      tags,
+    });
 
     const response = h.response({
       status: 'success',
@@ -127,6 +148,10 @@ class NotesHandler {
    */
   async deleteNoteByIdHandler(request, h) {
     const { id } = request.params;
+    const { id: credentialId } = request.auth.credentials;
+
+    // @ts-ignore
+    await this._service.verifyNoteOwner(id, credentialId);
 
     const deletedNote = await this._service.deleteNoteById(id);
 

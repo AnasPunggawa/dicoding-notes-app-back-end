@@ -1,0 +1,18 @@
+/**
+ * @param {import('./handler.js')} handler
+ * @returns {import('../../types/HapiTypes.js').HapiRoute}
+ */
+const routes = (handler) => [
+  {
+    method: 'POST',
+    path: '/users',
+    handler: handler.postUserHandler,
+  },
+  {
+    method: 'GET',
+    path: '/users/{id}',
+    handler: handler.getUserByIdHandler,
+  },
+];
+
+module.exports = routes;

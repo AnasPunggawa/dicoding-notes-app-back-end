@@ -1,5 +1,3 @@
-/* eslint-disable object-curly-newline */
-/* eslint-disable max-len */
 /* eslint-disable camelcase */
 
 /**
@@ -7,10 +5,25 @@
  */
 
 /**
- * @param {{id: string, title: string, body: string, tags: string[], created_at: string, updated_at: string}} noteDB
+ * @param {Object} noteDB
+ * @param {string} noteDB.id
+ * @param {string} noteDB.title
+ * @param {string} noteDB.body
+ * @param {string[]} noteDB.tags
+ * @param {string} noteDB.created_at
+ * @param {string} noteDB.updated_at
+ * @param {string} noteDB.owner
  * @returns {Note}
  */
-function mapDBToNoteModel({ id, title, body, tags, created_at, updated_at }) {
+function mapDBToNoteModel({
+  id,
+  title,
+  body,
+  tags,
+  created_at,
+  updated_at,
+  owner,
+}) {
   return {
     id,
     title,
@@ -18,6 +31,7 @@ function mapDBToNoteModel({ id, title, body, tags, created_at, updated_at }) {
     tags,
     createdAt: created_at,
     updatedAt: updated_at,
+    owner,
   };
 }
 

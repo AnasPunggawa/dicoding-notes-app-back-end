@@ -2,6 +2,7 @@
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
 const InvariantError = require('../../exceptions/InvariantError');
+const AuthorizationError = require('../../exceptions/AuthorizationError');
 const { mapDBToNoteModel } = require('../../utils/mapDBToNoteModel');
 const NotFoundError = require('../../exceptions/NotFoundError');
 
@@ -20,13 +21,14 @@ class NotesService {
    * @returns {Promise<string>}
    * @throws {InvariantError}
    */
-  async addNote({ title, body, tags }) {
+  // eslint-disable-next-line object-curly-newline
+  async addNote({ title, body, tags, owner }) {
     const id = nanoid(16);
     const timestamp = new Date().toISOString();
 
     const query = {
-      text: 'INSERT INTO notes (id, title, body, tags, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
-      values: [id, title, body, tags, timestamp, timestamp],
+      text: 'INSERT INTO notes (id, title, body, tags, created_at, updated_at, owner) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
+      values: [id, title, body, tags, timestamp, timestamp, owner],
     };
 
     const { rows } = await this._pool.query(query);
@@ -39,10 +41,16 @@ class NotesService {
   }
 
   /**
+   * @param {string} owner
    * @returns {Promise<Note[]>}
    */
-  async getNotes() {
-    const { rows } = await this._pool.query('SELECT * FROM notes');
+  async getNotes(owner) {
+    const query = {
+      text: 'SELECT * FROM notes WHERE owner = $1',
+      values: [owner],
+    };
+
+    const { rows } = await this._pool.query(query);
 
     return rows.map(mapDBToNoteModel);
   }
@@ -108,6 +116,29 @@ class NotesService {
     }
 
     return mapDBToNoteModel(rows[0]);
+  }
+
+  /**
+   * @param {string} id
+   * @param {string} owner
+   * @returns {Promise<void>}
+   * @throws {NotFoundError | AuthorizationError}
+   */
+  async verifyNoteOwner(id, owner) {
+    const query = {
+      text: 'SELECT * FROM notes WHERE id = $1',
+      values: [id],
+    };
+
+    const { rows } = await this._pool.query(query);
+
+    if (!rows.length) {
+      throw new NotFoundError('Catatan tidak ditemukan');
+    }
+
+    if (rows[0]?.owner !== owner) {
+      throw new AuthorizationError('Anda tidak berhak mengakses resource ini');
+    }
   }
 }
 
