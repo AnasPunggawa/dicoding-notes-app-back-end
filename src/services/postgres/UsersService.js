@@ -7,6 +7,7 @@ const NotFoundError = require('../../exceptions/NotFoundError');
 const AuthenticationError = require('../../exceptions/AuthenticationError');
 
 /**
+ * @typedef {import('../../types/UserTypes.js').User} User
  * @typedef {import('../../types/UserTypes.js').PayloadUser} PayloadUser
  * @typedef {import('../../types/UserTypes.js').PayloadUserCredential} PayloadUserCredential
  */
@@ -59,25 +60,6 @@ class UsersService {
   }
 
   /**
-   * @param {string} username
-   */
-  async _verifyNewUsername(username) {
-    const query = {
-      text: 'SELECT username FROM users WHERE username = $1',
-      values: [username],
-    };
-
-    const { rows } = await this._pool.query(query);
-
-    if (rows.length !== 0) {
-      throw new InvariantError(
-        // eslint-disable-next-line comma-dangle
-        'Gagal menambahkan user. Username sudah digunakan.'
-      );
-    }
-  }
-
-  /**
    * @param {PayloadUserCredential} payload
    * @returns {Promise<string>}
    * @throws {AuthenticationError}
@@ -103,6 +85,40 @@ class UsersService {
     }
 
     return id;
+  }
+
+  /**
+   * @param {string} username
+   * @returns {Promise<User[]?>}
+   */
+  async getUsersByUsername(username) {
+    const query = {
+      text: 'SELECT id, username, fullname FROM users WHERE username LIKE $1',
+      values: [`%${username}%`],
+    };
+
+    const { rows } = await this._pool.query(query);
+
+    return rows;
+  }
+
+  /**
+   * @param {string} username
+   */
+  async _verifyNewUsername(username) {
+    const query = {
+      text: 'SELECT username FROM users WHERE username = $1',
+      values: [username],
+    };
+
+    const { rows } = await this._pool.query(query);
+
+    if (rows.length !== 0) {
+      throw new InvariantError(
+        // eslint-disable-next-line comma-dangle
+        'Gagal menambahkan user. Username sudah digunakan.'
+      );
+    }
   }
 }
 

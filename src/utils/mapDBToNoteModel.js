@@ -13,6 +13,7 @@
  * @param {string} noteDB.created_at
  * @param {string} noteDB.updated_at
  * @param {string} noteDB.owner
+ * @param {string} noteDB.username
  * @returns {Note}
  */
 function mapDBToNoteModel({
@@ -23,6 +24,7 @@ function mapDBToNoteModel({
   created_at,
   updated_at,
   owner,
+  username,
 }) {
   return {
     id,
@@ -32,6 +34,7 @@ function mapDBToNoteModel({
     createdAt: created_at,
     updatedAt: updated_at,
     owner,
+    username,
   };
 }
 

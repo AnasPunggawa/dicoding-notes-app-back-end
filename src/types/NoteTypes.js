@@ -7,6 +7,7 @@
  * @property {string} createdAt
  * @property {string} updatedAt
  * @property {string} owner
+ * @property {string} username
  */
 
 /**

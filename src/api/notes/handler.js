@@ -90,7 +90,7 @@ class NotesHandler {
     const { id: credentialId } = request.auth.credentials;
 
     // @ts-ignore
-    await this._service.verifyNoteOwner(id, credentialId);
+    await this._service.verifyNoteAccess(id, credentialId);
 
     const note = await this._service.getNoteById(id);
 
@@ -120,7 +120,7 @@ class NotesHandler {
     const { title, body, tags } = request.payload;
 
     // @ts-ignore
-    await this._service.verifyNoteOwner(id, credentialId);
+    await this._service.verifyNoteAccess(id, credentialId);
 
     // @ts-ignore
     const updatedNote = await this._service.editNoteById(id, {
