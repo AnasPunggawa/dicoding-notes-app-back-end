@@ -7,9 +7,9 @@ const { mapDBToNoteModel } = require('../../utils/mapDBToNoteModel');
 const NotFoundError = require('../../exceptions/NotFoundError');
 
 /**
- * @typedef {import('../../services/postgres/CollaborationsService.js')} CollaborationsService
- * @typedef {import('../../types/NoteTypes').Note} Note
- * @typedef {import('../../types/NoteTypes').PayloadNote} PayloadNote
+ * @typedef {import('./CollaborationsService.js')} CollaborationsService
+ * @typedef {import('../../types/NoteTypes.js').Note} Note
+ * @typedef {import('../../types/NoteTypes.js').PayloadNote} PayloadNote
  */
 
 class NotesService {

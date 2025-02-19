@@ -1,5 +1,5 @@
 /**
- * @param {import('./handler')} handler
+ * @param {import('./handler.js')} handler
  * @returns {import('../../types/HapiTypes.js').HapiRoute}
  */
 const routes = (handler) => [
