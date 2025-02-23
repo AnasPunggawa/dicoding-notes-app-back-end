@@ -1,5 +1,5 @@
-const NotesHandler = require('./handler');
-const routes = require('./routes');
+const NotesHandler = require('./handler.js');
+const routes = require('./routes.js');
 
 /**
  * @type {import('../../types/HapiTypes.js').HapiPlugin}

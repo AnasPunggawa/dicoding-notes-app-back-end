@@ -1,6 +1,6 @@
 const process = require('process');
 const Jwt = require('@hapi/jwt');
-const InvariantError = require('../exceptions/InvariantError');
+const InvariantError = require('../exceptions/InvariantError.js');
 
 /**
  * @typedef {import('../types/HapiTypes.js').HapiDecodedToken} HapiDecodedToken

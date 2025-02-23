@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 /**
- * @typedef {import('../../rabbitmq/ProducerService')} ProducerService
+ * @typedef {import('../../services/rabbitmq/ProducerService')} ProducerService
  * @typedef {import('../../validator/exports')} ExportsValidator
  * @typedef {import('../../types/HapiTypes').HapiRequest} HapiRequest
  * @typedef {import('../../types/HapiTypes').HapiResponseToolkit} HapiResponseToolkit

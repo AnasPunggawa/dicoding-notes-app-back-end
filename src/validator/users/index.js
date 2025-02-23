@@ -1,5 +1,5 @@
-const InvariantError = require('../../exceptions/InvariantError');
-const { UserPayloadSchema } = require('./schema');
+const InvariantError = require('../../exceptions/InvariantError.js');
+const { UserPayloadSchema } = require('./schema.js');
 
 /**
  * @typedef {import('../../types/UserTypes.js').PayloadUser} PayloadUser

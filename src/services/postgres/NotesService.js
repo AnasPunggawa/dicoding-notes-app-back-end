@@ -1,10 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
-const InvariantError = require('../../exceptions/InvariantError');
-const AuthorizationError = require('../../exceptions/AuthorizationError');
-const { mapDBToNoteModel } = require('../../utils/mapDBToNoteModel');
-const NotFoundError = require('../../exceptions/NotFoundError');
+const InvariantError = require('../../exceptions/InvariantError.js');
+const AuthorizationError = require('../../exceptions/AuthorizationError.js');
+const { mapDBToNoteModel } = require('../../utils/mapDBToNoteModel.js');
+const NotFoundError = require('../../exceptions/NotFoundError.js');
 
 /**
  * @typedef {import('./CollaborationsService.js')} CollaborationsService

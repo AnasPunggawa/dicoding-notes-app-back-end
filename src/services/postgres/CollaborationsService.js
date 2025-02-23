@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
-const InvariantError = require('../../exceptions/InvariantError');
+const InvariantError = require('../../exceptions/InvariantError.js');
 
 /**
  * @typedef {import('../../types/CollaborationTypes.js').Collaboration} Collaboration

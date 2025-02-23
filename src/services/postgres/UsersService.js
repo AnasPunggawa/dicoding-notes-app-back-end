@@ -2,9 +2,9 @@
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
 const bcrypt = require('bcrypt');
-const InvariantError = require('../../exceptions/InvariantError');
-const NotFoundError = require('../../exceptions/NotFoundError');
-const AuthenticationError = require('../../exceptions/AuthenticationError');
+const InvariantError = require('../../exceptions/InvariantError.js');
+const NotFoundError = require('../../exceptions/NotFoundError.js');
+const AuthenticationError = require('../../exceptions/AuthenticationError.js');
 
 /**
  * @typedef {import('../../types/UserTypes.js').User} User

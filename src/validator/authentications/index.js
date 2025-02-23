@@ -2,8 +2,8 @@ const {
   PostAuthenticationPayloadSchema,
   PutAuthenticationPayloadSchema,
   DeleteAuthenticationPayloadSchema,
-} = require('./schema');
-const InvariantError = require('../../exceptions/InvariantError');
+} = require('./schema.js');
+const InvariantError = require('../../exceptions/InvariantError.js');
 
 /**
  * @typedef {import('../../types/UserTypes.js').PayloadUserCredential} PayloadUserCredential
